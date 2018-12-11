@@ -11,3 +11,9 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+(function() {
+  if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+  }
+})()
