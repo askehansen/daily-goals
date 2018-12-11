@@ -4,7 +4,7 @@
       <circle class="progress__meter" cx="35" cy="35" r="30" stroke-width="4" />
       <circle ref="progress" class="progress__value" cx="35" cy="35" r="30" stroke-width="4" />
     </svg>
-    <div style="width: 70px; height: 70px" class="font-bold rounded-full flex-none flex justify-center items-center" :class="{ 'text-white bg-green-light': isCompleted }" @click="addRep">
+    <div style="width: 70px; height: 70px" class="font-bold rounded-full flex-none flex justify-center items-center" :class="{ 'text-green-light': isCompleted }" @click="addRep">
       <div>{{item.reps}}/{{item.goal}}</div>
     </div>
     <div class="ml-6 flex-grow font-bold">{{item.title}}</div>
@@ -18,7 +18,13 @@ export default {
   props: ['item', 'editMode'],
   methods: {
     addRep () {
-      this.item.reps++
+      if (this.item.reps < this.item.goal) {
+        this.item.reps++
+      }
+      else {
+        this.item.reps = 0
+      }
+
       this.$emit("update")
       this.setProgress()
     },
@@ -34,10 +40,6 @@ export default {
       progressValue.style.strokeDasharray = CIRCUMFERENCE;
 
       let value = this.item.reps / this.item.goal * 100
-
-      if (value > 100) {
-        value = 100
-      }
 
       let progress = value / 100;
       let dashoffset = CIRCUMFERENCE * (1 - progress);
