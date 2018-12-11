@@ -3,13 +3,23 @@
   "name": "Daily Goals",
   "icons": [
     {
+      "src": "/static/icons-128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/static/icons-256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
       "src": "/static/icons-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": "/",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f1f5f8",
   "theme_color": "#51d88a"

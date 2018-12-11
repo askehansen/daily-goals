@@ -4,14 +4,14 @@
       <div>{{item.reps}}/{{item.goal}}</div>
     </div>
     <div class="flex-grow font-bold">{{item.title}}</div>
-    <button type="button" class="text-grey p-4 text-lg rounded text-center" @click="remove(item)">✖</button>
+    <button v-if="editMode" type="button" class="text-grey p-4 text-xs font-bold uppercase rounded text-center" @click="remove(item)">Remove</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'Item',
-  props: ['item'],
+  props: ['item', 'editMode'],
   methods: {
     addRep () {
       this.item.reps++

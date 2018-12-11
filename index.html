@@ -2,11 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
     <link rel="manifest" href="/static/manifest.json">
+    <link rel="apple-touch-icon" sizes="512x512" href="/static/icons-512.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>daily-goals</title>
   </head>
-  <body class="bg-grey-lighter">
+  <body class="bg-grey-lighter overflow-x-hidden">
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
