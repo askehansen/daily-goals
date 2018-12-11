@@ -7,7 +7,7 @@
     <div style="width: 70px; height: 70px" class="font-bold rounded-full flex-none flex justify-center items-center" :class="{ 'text-green-light': isCompleted }" @click="addRep">
       <div>{{item.reps}}/{{item.goal}}</div>
     </div>
-    <div class="ml-6 flex-grow font-bold">{{item.title}}</div>
+    <div class="ml-6 flex-grow font-bold" @click="addRep">{{item.title}}</div>
     <button v-if="editMode" type="button" class="text-grey p-4 text-xs font-bold uppercase rounded text-center" @click="remove(item)">Remove</button>
   </div>
 </template>
