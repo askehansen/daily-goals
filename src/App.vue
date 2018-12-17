@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="bg-green-light pt-safe fixed pin-t pin-x">
+    <div class="bg-brand-purple pt-safe fixed pin-t pin-x z-20">
       <div class="h-12 flex items-center justify-center relative">
         <div class="font-bold text-white">Daily goals</div>
         <button type="button" class="absolute pin-r pin-t h-12 px-4 text-white text-xs font-bold uppercase" @click="editMode = !editMode">
@@ -17,12 +17,16 @@
 
     <div class="pb-safe pt-safe">
       <div class="pt-12">
-        <item :item="item" :editMode="editMode" @update="update" @remove="remove" v-for="item in items" :key="item.id"></item>
-        <div class="flex p-2 items-center -mx-1" v-if="editMode">
-          <input class="appearance-none border-2 rounded flex-grow px-6 py-3 mx-1" autofocus type="text" ref="new-item-title" v-model="newItem.title" @keyup.enter="add">
-          <input class="appearance-none border-2 rounded w-12 flex-none text-center py-3 mx-1" type="text" v-model="newItem.goal" @keyup.enter="add">
-          <button type="button" class="mx-1 text-white font-bold uppercase px-6 py-3 rounded text-center bg-green-light" @click="add">Add</button>
+
+        <div v-if="editMode">
+          <itemForm :item="item" @update="update" @remove="remove" v-for="item in items" :key="item.id"></itemForm>
+          <itemForm :item="newItem" @create="create" isNew="true"></itemForm>
         </div>
+
+        <div v-else class="my-24 mx-12">
+          <item :item="item" @update="update" :index="index" v-for="(item, index) in items" :key="item.id"></item>
+        </div>
+
       </div>
     </div>
 
@@ -32,12 +36,14 @@
 <script>
 import '@/assets/styles/main.css'
 
+import ItemForm from './components/ItemForm'
 import Item from './components/Item'
 
 export default {
   name: 'App',
   components: {
-    Item
+    ItemForm,
+    Item,
   },
   data () {
     return {
@@ -54,10 +60,9 @@ export default {
       let date = new Date()
       return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
     },
-    add () {
+    create () {
       this.items.push(this.newItem)
       this.initNewItem()
-      this.refs["new-item-title"].focus()
     },
     update () {
       localStorage.items = JSON.stringify(this.items)

@@ -1,21 +1,22 @@
 <template>
-  <div class="flex items-center my-4 pl-6">
-    <svg width="70" class="progress absolute" height="70" viewBox="0 0 70 70" @click="addRep">
-      <circle class="progress__meter" cx="35" cy="35" r="30" stroke-width="4" />
-      <circle ref="progress" class="progress__value" cx="35" cy="35" r="30" stroke-width="4" />
+  <div class="w-item h-item -my-6 flex flex-col items-center justify-center text-white" @click="addRep" :class="{ 'ml-auto': positionRight, 'text-green-light': isCompleted }">
+    <svg width="140" class="progress absolute" height="140" viewBox="0 0 140 140">
+      <circle class="progress__meter" cx="70" cy="70" r="60" stroke-width="7" />
+      <circle ref="progress" class="progress__value" cx="70" cy="70" r="60" stroke-width="7" />
     </svg>
-    <div style="width: 70px; height: 70px" class="font-bold rounded-full flex-none flex justify-center items-center" :class="{ 'text-green-light': isCompleted }" @click="addRep">
+
+    <div class="font-black text-4xl">
       <div>{{item.reps}}/{{item.goal}}</div>
     </div>
-    <div class="ml-6 flex-grow font-bold" @click="addRep">{{item.title}}</div>
-    <button v-if="editMode" type="button" class="text-grey p-4 text-xs font-bold uppercase rounded text-center" @click="remove(item)">Remove</button>
+    <div class="font-bold italic">{{item.title}}</div>
   </div>
+
 </template>
 
 <script>
 export default {
   name: 'Item',
-  props: ['item', 'editMode'],
+  props: ['item', 'index'],
   methods: {
     addRep () {
       if (this.item.reps < this.item.goal) {
@@ -28,13 +29,10 @@ export default {
       this.$emit("update")
       this.setProgress()
     },
-    remove (item) {
-      this.$emit("remove", item)
-    },
     setProgress () {
       let progressValue = this.$refs['progress']
 
-      const RADIUS = 30;
+      const RADIUS = 60;
       const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
       progressValue.style.strokeDasharray = CIRCUMFERENCE;
@@ -47,6 +45,9 @@ export default {
     }
   },
   computed: {
+    positionRight () {
+      return this.index % 2 === 1
+    },
     isCompleted () {
       return (this.item.reps >= this.item.goal)
     }
@@ -56,3 +57,23 @@ export default {
   }
 }
 </script>
+
+<style>
+  .progress {
+      transform: rotate(-90deg);
+  }
+
+  .progress__meter,
+  .progress__value {
+      fill: none;
+  }
+
+  .progress__meter {
+      stroke: #5D5961;
+  }
+
+  .progress__value {
+      stroke: #51d88a;
+      stroke-linecap: round;
+  }
+</style>
