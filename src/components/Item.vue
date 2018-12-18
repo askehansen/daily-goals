@@ -147,7 +147,7 @@ export default {
 
   .star {
     opacity: 0;
-    animation: star 500ms ease-out;
+    animation: star 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
     animation-iteration-count: 1;
   }
 
