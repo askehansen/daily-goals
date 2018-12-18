@@ -2,13 +2,14 @@
   <div class="w-item h-item -my-6 flex flex-col items-center justify-center text-white" @click="addRep" :class="{ 'ml-auto': positionRight, 'text-green-light': isCompleted }">
     <svg width="140" class="progress absolute" height="140" viewBox="0 0 140 140">
       <circle class="progress__meter" cx="70" cy="70" r="60" stroke-width="7" />
-      <circle ref="progress" class="progress__value" :class="{ 'animated': isAnimated }" cx="70" cy="70" r="60" stroke-width="7" />
+      <circle ref="progress" class="progress__value" :class="animationClass" cx="70" cy="70" r="60" stroke-width="7" />
     </svg>
 
     <div class="font-black text-4xl">
       <div>{{item.reps}}/{{item.goal}}</div>
     </div>
     <div class="font-bold italic">{{item.title}}</div>
+
 
 
     <div class="star-wrapper1" v-if="isCompleted">
@@ -67,16 +68,16 @@ export default {
   methods: {
     addRep () {
       if (this.item.reps < this.item.goal) {
-        this.isAnimated = true
         this.item.reps++
       }
       else {
-        this.isAnimated = false
         this.item.reps = 0
       }
 
       this.$emit("update")
-      this.setProgress()
+      this.$nextTick(() => {
+        this.setProgress()
+      })
     },
     setProgress () {
       let progressValue = this.$refs['progress']
@@ -99,6 +100,20 @@ export default {
     },
     isCompleted () {
       return (this.item.reps >= this.item.goal)
+    },
+    animationClass () {
+      if (this.item.goal === 1) {
+        return 'spring-none'
+      }
+      else if (this.item.reps === 0) {
+        return 'spring-end'
+      }
+      else if (this.item.reps == this.item.goal) {
+        return 'spring-start'
+      }
+      else {
+        return 'spring-both'
+      }
     }
   },
   mounted () {
@@ -125,8 +140,17 @@ export default {
       stroke: #51d88a;
       stroke-linecap: round;
   }
-  .animated {
+  .spring-none {
+    transition: all 300ms cubic-bezier(0.68, -0.00, 0.265, 1.00);
+  }
+  .spring-both {
     transition: all 300ms cubic-bezier(0.68, -0.30, 0.265, 1.50);
+  }
+  .spring-end {
+    transition: all 300ms cubic-bezier(0.68, -0.00, 0.265, 1.50);
+  }
+  .spring-start {
+    transition: all 300ms cubic-bezier(0.68, -0.30, 0.265, 1.00);
   }
 
   .star-wrapper1 {
