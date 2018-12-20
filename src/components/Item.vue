@@ -1,5 +1,5 @@
 <template>
-  <div class="w-item h-item -my-6 flex flex-col items-center justify-center text-white" @click="addRep" :class="{ 'ml-auto': positionRight, 'text-green-light': isCompleted }">
+  <button type="button" class="w-item h-item -my-6 flex flex-col items-center justify-center text-white active-animated" @click="addRep" @touchstart="active=true" @touchend="active=false" :class="{ 'active': active, 'ml-auto': positionRight, 'text-green-light': isCompleted }">
     <svg width="140" class="progress absolute" height="140" viewBox="0 0 140 140">
       <circle class="progress__meter" cx="70" cy="70" r="60" stroke-width="7" />
       <circle ref="progress" class="progress__value" :class="animationClass" cx="70" cy="70" r="60" stroke-width="7" />
@@ -52,7 +52,7 @@
       </svg>
     </div>
 
-  </div>
+  </button>
 
 </template>
 
@@ -62,6 +62,7 @@ export default {
   props: ['item', 'index'],
   data () {
     return {
+      active: false,
       isAnimated: false
     }
   },
